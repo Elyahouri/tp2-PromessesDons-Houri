@@ -4,8 +4,10 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
+            <link rel="stylesheet" href="https://bootswatch.com/5/pulse/bootstrap.min.css">
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
@@ -13,7 +15,44 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('app_home') }}">Donnons-leur !</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_home') }}">Accueil
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                </ul>
+                <div class="d-flex nav" id="connexion">
+                    <ul class="navbar-nav me-auto">
+                        {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path('app_login') }}">Se connecter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path('app_user_new') }}">S'inscrire</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
         {% block body %}{% endblock %}
     </body>
 </html>

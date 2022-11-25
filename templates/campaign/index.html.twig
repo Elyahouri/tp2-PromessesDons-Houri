@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campaign index{% endblock %}
+
+{% block body %}
+    <h1>Campaign index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td>
+                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}">Voir Plus</a>
+                    {%  if app.user %}
+                        <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Pas de campagnes enregistrés</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user %}
+    <a href="{{ path('app_campaign_new') }}">Crea</a>
+    {% endif %}
+
+{% endblock %}
