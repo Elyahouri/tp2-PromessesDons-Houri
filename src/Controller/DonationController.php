@@ -28,6 +28,8 @@ class DonationController extends AbstractController
         $donation = new Donation();
         $form = $this->createForm(DonationType::class, $donation);
         $form->handleRequest($request);
+        $donation->setHonored(false);
+        $donation->setCreatedAt(new \DateTimeImmutable());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $donationRepository->save($donation, true);
@@ -53,10 +55,12 @@ class DonationController extends AbstractController
     public function edit(Request $request, Donation $donation, DonationRepository $donationRepository): Response
     {
         $form = $this->createForm(DonationType::class, $donation);
-        $form->add('honored',CheckboxType::class,[
-            'required' => false,
-            "label"=> 'Honoré'
-        ]);
+        if($donation->getHonoredAt()== null){
+            $form->add('honored',CheckboxType::class,[
+                'required' => false,
+                "label"=> 'Honoré'
+            ]);
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if($donation->isHonored()){

@@ -21,9 +21,9 @@
             </tr>
         </tbody>
     </table>
-    <a href="{{ path('app_donation_new') }}">Je donne pour cette campagne</a>
+    <a href="{{ path('app_campaign_donation', {'id': campaign.id}) }}">Je donne pour cette campagne</a>
 
-    <a href="{{ path('app_campaign_index') }}">Retour à la liste</a>
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
 
    {% if app.user %}
     <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">Modifier la campagne</a>

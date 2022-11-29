@@ -88,4 +88,38 @@ class Campaign
 
         return $this;
     }
+
+    public function getSommeDonation(): ?int
+    {
+        $sum = 0;
+        foreach ($this->getDonation() as $don){
+            $sum+=$don->getAmount();
+        }
+        return $sum;
+    }
+
+    public function getSommeDonationHonored(): ?int
+    {
+        $sum = 0;
+        foreach ($this->getDonation() as $don){
+            if ($don->isHonored()==true){
+                $sum+=$don->getAmount();
+            }
+        }
+        return $sum;
+    }
+
+    public function getSommeDonationNotHonored(): ?int
+    {
+        $sum = 0;
+        foreach ($this->getDonation() as $don){
+            if ($don->isHonored()!=true){
+                $sum+=$don->getAmount();
+            }
+        }
+        return $sum;
+    }
+
+
+
 }

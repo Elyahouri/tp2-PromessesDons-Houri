@@ -39,12 +39,12 @@ class AppFixtures extends Fixture
         $admin = new User();
         $admin->setEmail("admin@mail.com")
             ->setPassword($this->hasher->hashPassword($admin,"admin"))
-            ->setFirstName("prenom")
-            ->setLastName("nom")
+            ->setFirstName("Admini")
+            ->setLastName("Strator")
             ->setRoles(["ROLE_ADMIN"]);
         $manager->persist($admin);
 
-        for ($i = 0; $i<10; $i++){
+        for ($i = 0; $i<5; $i++){
             $user=new User;
             $user->setEmail($faker->email)
                 ->setPassword($this->hasher->hashPassword($user,"user"))
@@ -91,8 +91,11 @@ class AppFixtures extends Fixture
                 $don->setUser($user)
                     ->setAmount($faker->numberBetween(1,10000))
                     ->setCreatedAt(new \DateTimeImmutable())
-                    ->setHonored(false)
+                    ->setHonored($faker->boolean)
                     ->setCampaign($cmpn);
+                if ($don->isHonored()){
+                    $don->setHonoredAt(new \DateTimeImmutable());
+                }
                 $manager->persist($don);
 
             }

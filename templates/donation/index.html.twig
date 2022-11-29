@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Amount</th>
                 <th>Créée le</th>
                 <th>Honoré</th>
@@ -20,16 +19,23 @@
         <tbody>
         {% for donation in donations %}
             <tr>
-                <td>{{ donation.id }}</td>
-                <td>{{ donation.amount }}</td>
+                <td>{{ donation.amount }} €</td>
                 <td>{{ donation.createdAt ? donation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 {% if donation.honored %}
                     <td>{{ donation.honoredAt ? donation.honoredAt|date('Y-m-d H:i:s') : '' }}</td>
                 {% else %}
                     <td><p class="btn btn-danger">Non</p></td>
                 {% endif %}
-                <td></td>
-                <td></td>
+                {% if donation.user %}
+                    <td>{{ donation.user.firstname }} {{ donation.user.lastname }}</td>
+                {% else %}
+                    <td>? Anonyme ?</td>
+                {% endif %}
+                {% if donation.campaign %}
+                    <td>{{ donation.campaign.name }} </td>
+                {% else %}
+                    <td>Pas de campagne renseignée</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('app_donation_show', {'id': donation.id}) }}">show</a>
                     <a href="{{ path('app_donation_edit', {'id': donation.id}) }}">edit</a>

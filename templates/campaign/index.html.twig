@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Somme récolté</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -16,11 +17,13 @@
         {% for campaign in campaigns %}
             <tr>
                 <td>{{ campaign.name }}</td>
+                <td><button type="button" class="btn btn-success">{{ campaign.sommedonation }}</button></td>
                 <td>
-                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}">Voir Plus</a>
+                    <a href="{{ path('app_campaign_show', {'id': campaign.id}) }}"><button type="button" class="btn btn-primary">Voir Plus</button></a>
                     {%  if app.user %}
-                        <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">Modifier</a>
+                        <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                     {% endif %}
+                    <a href="{{ path('app_campaign_donation', {'id': campaign.id}) }}"><button type="button" class="btn btn-primary">Je donne</button></a>
                 </td>
             </tr>
         {% else %}
@@ -31,7 +34,7 @@
         </tbody>
     </table>
     {% if app.user %}
-    <a href="{{ path('app_campaign_new') }}">Crea</a>
+    <a href="{{ path('app_campaign_new') }}">Ajouter une campagne</a>
     {% endif %}
 
 {% endblock %}
