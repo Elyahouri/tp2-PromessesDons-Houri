@@ -25,6 +25,11 @@ class Campaign
     #[ORM\OneToMany(mappedBy: 'campaign', targetEntity: Donation::class)]
     private Collection $donation;
 
+    private ?int $sommeDonation;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $activated = null;
+
     public function __construct()
     {
         $this->donation = new ArrayCollection();
@@ -89,20 +94,44 @@ class Campaign
         return $this;
     }
 
+    public function isActivated(): ?bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(?bool $activated): self
+    {
+        $this->activated = $activated;
+
+        return $this;
+    }
+
+    public function getNbDonations()
+    {
+        $nbDon = 0;
+
+        foreach ($this->getDonation() as $don){
+            $nbDon+=1;
+
+        }
+        return $nbDon;
+    }
+
     public function getSommeDonation(): ?int
     {
         $sum = 0;
         foreach ($this->getDonation() as $don){
             $sum+=$don->getAmount();
         }
-        return $sum;
+        $this->sommeDonation = $sum;
+        return $this->sommeDonation;
     }
 
     public function getSommeDonationHonored(): ?int
     {
         $sum = 0;
         foreach ($this->getDonation() as $don){
-            if ($don->isHonored()==true){
+            if ($don->getHonoredAt()){
                 $sum+=$don->getAmount();
             }
         }
@@ -113,11 +142,56 @@ class Campaign
     {
         $sum = 0;
         foreach ($this->getDonation() as $don){
-            if ($don->isHonored()!=true){
+            if ($don->getHonoredAt()==null){
                 $sum+=$don->getAmount();
             }
         }
         return $sum;
+    }
+
+    public function getTauxConversion()
+    {
+        $nbHonored = 0;
+        $nbNothonored = 0;
+        foreach ($this->getDonation() as $don){
+
+            if ($don->getHonoredAt()){
+                $nbHonored+=1;
+            }
+            else{
+                $nbNothonored+=1;
+            }
+        }
+        $txConversion = ($nbHonored/($nbHonored+$nbNothonored))*100;
+        return round($txConversion,2);
+    }
+
+    public function getNbHonored()
+    {
+        $nbHonored = 0;
+
+        foreach ($this->getDonation() as $don){
+
+            if ($don->getHonoredAt()){
+                $nbHonored+=1;
+            }
+
+        }
+        return $nbHonored;
+    }
+
+    public function getNbNotHonored()
+    {
+        $nbNotHonored = 0;
+
+        foreach ($this->getDonation() as $don){
+
+            if ($don->getHonoredAt()==null){
+                $nbNotHonored+=1;
+            }
+
+        }
+        return $nbNotHonored;
     }
 
 

@@ -28,8 +28,6 @@ class Donation
     #[ORM\ManyToOne(inversedBy: 'donation')]
     private ?Campaign $campaign = null;
 
-    #[ORM\Column]
-    private ?bool $honored = null;
 
     public function getId(): ?int
     {
@@ -96,15 +94,4 @@ class Donation
         return $this;
     }
 
-    public function isHonored(): ?bool
-    {
-        return $this->honored;
-    }
-
-    public function setHonored(bool $honored): self
-    {
-        $this->honored = $honored;
-
-        return $this;
-    }
 }

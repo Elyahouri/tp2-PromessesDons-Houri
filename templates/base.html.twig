@@ -30,9 +30,18 @@
                         </a>
                     </li>
                     {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_campaign_new') }}">Ajouter une campagne</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_campaign_all') }}">Voir toutes les campagnes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_campaign_top3')}}">Top 3 des campagnes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_campaign_new') }}">Ajouter une campagne</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_user_donation') }}">Mes dons</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <div class="d-flex nav" id="connexion">

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %}Top 3 des campagnes{% endblock %}
+
+{% block body %}
+    <h2 class="primary">Top 3 des campagnes ayant récolté la plus grande somme</h2>
+
+    <table class="table table-primary">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th><b>Somme récolté</b></th>
+            <th>Nombre dons</th>
+            <th>Taux de conversion</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for campaign in top3SommeDonation %}
+
+                <tr>
+                    <td>{{ campaign.name }}</td>
+                    <td><button type="button" class="btn btn-outline-primary">{{ campaign.sommedonation }}</button></td>
+                    <td>{{ campaign.nbdonations }}</td>
+                    <td>{{ campaign.tauxconversion }}%</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Top 3 des campagnes ayant récolté le plus de dons</h2>
+
+    <table class="table table-primary">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th><b>Nombre dons</b></th>
+            <th>Somme récolté</th>
+            <th>Taux de conversion</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for campaign in top3NbDonation %}
+
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td><button type="button" class="btn btn-outline-primary">{{ campaign.nbdonations }}</button></td>
+                <td>{{ campaign.sommedonation }}</td>
+                <td>{{ campaign.tauxconversion }}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h2>Top 3 des campagnes ayant le plus haut taux de conversion</h2>
+
+    <table class="table table-primary">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th><b>Taux de conversion</b></th>
+            <th>Somme récolté</th>
+            <th>Nombre dons</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for campaign in top3TxConversion %}
+
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td><button type="button" class="btn btn-outline-primary">{{ campaign.tauxconversion }}%</button></td>
+                <td>{{ campaign.sommedonation }}</td>
+                <td>{{ campaign.nbdonations }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+{% endblock %}

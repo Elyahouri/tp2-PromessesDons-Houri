@@ -68,7 +68,8 @@ class AppFixtures extends Fixture
         for ($i=0; $i<5; $i++ ){
             $cmpn = new Campaign();
             $cmpn->setName($faker->word)
-                ->setDescription($faker->text(30));
+                ->setDescription($faker->text(30))
+                ->setActivated($faker->boolean);
             $manager->persist($cmpn);
 
         }
@@ -91,9 +92,8 @@ class AppFixtures extends Fixture
                 $don->setUser($user)
                     ->setAmount($faker->numberBetween(1,10000))
                     ->setCreatedAt(new \DateTimeImmutable())
-                    ->setHonored($faker->boolean)
                     ->setCampaign($cmpn);
-                if ($don->isHonored()){
+                if ($faker->boolean){
                     $don->setHonoredAt(new \DateTimeImmutable());
                 }
                 $manager->persist($don);

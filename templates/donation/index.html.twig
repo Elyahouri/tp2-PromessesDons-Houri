@@ -3,7 +3,7 @@
 {% block title %}Donation index{% endblock %}
 
 {% block body %}
-    <h1>Donation index</h1>
+    <h1>Mes Dons</h1>
 
     <table class="table">
         <thead>
@@ -21,8 +21,8 @@
             <tr>
                 <td>{{ donation.amount }} €</td>
                 <td>{{ donation.createdAt ? donation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                {% if donation.honored %}
-                    <td>{{ donation.honoredAt ? donation.honoredAt|date('Y-m-d H:i:s') : '' }}</td>
+                {% if donation.honoredAt %}
+                    <td><p class="btn btn-success">{{ donation.honoredAt ? donation.honoredAt|date('Y-m-d H:i:s') : '' }}</p></td>
                 {% else %}
                     <td><p class="btn btn-danger">Non</p></td>
                 {% endif %}
@@ -49,5 +49,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_donation_new') }}">Create new</a>
+    <a href="{{ path('app_home') }}">Create new</a>
 {% endblock %}

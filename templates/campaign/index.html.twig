@@ -15,6 +15,7 @@
         </thead>
         <tbody>
         {% for campaign in campaigns %}
+            {% if campaign.activated %}
             <tr>
                 <td>{{ campaign.name }}</td>
                 <td><button type="button" class="btn btn-success">{{ campaign.sommedonation }}</button></td>
@@ -26,6 +27,7 @@
                     <a href="{{ path('app_campaign_donation', {'id': campaign.id}) }}"><button type="button" class="btn btn-primary">Je donne</button></a>
                 </td>
             </tr>
+            {% endif %}
         {% else %}
             <tr>
                 <td colspan="4">Pas de campagnes enregistrés</td>
@@ -36,5 +38,7 @@
     {% if app.user %}
     <a href="{{ path('app_campaign_new') }}">Ajouter une campagne</a>
     {% endif %}
+
+
 
 {% endblock %}

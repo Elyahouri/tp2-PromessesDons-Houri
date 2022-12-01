@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Campaign;
+use App\Entity\Donation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,10 +34,28 @@ class CampaignRepository extends ServiceEntityRepository
     public function remove(Campaign $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    /*public function findTop3(){
+        $queryResult =  $this->getEntityManager()->createQuery(
+            'SELECT campaign
+            FROM App\Entity\Campaign as Campaign
+            INNER JOIN App\Entity\Donation as donation with campaign.id = donation.campaign_id
+            GROUP BY campaign.id 
+            ORDER BY SUM(donation.amount)')
+        ->setMaxResults(3);
+        return $queryResult->getResult();
+    }*/
+
+    public function findTop3(){
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->innerJoin('App\Entity\Donation', 'd','With','c.id=d.campaign_id')
+            ->groupBy('c.id')
+            ->orderBy('SUM(d.amount)','DESC')
+            ->setMaxResults(3);
+        return $queryBuilder->getQuery()->getResult();
     }
 
 //    /**

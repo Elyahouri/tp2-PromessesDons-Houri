@@ -1,16 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Campaign{% endblock %}
+{% block title %}Campaigne {{ campaign.name }}{% endblock %}
 
 {% block body %}
-    <h1>Campaign</h1>
+    <h1>Campaigne {{ campaign.name }}</h1>
+    <a href="{{ path('app_campaign_donation', {'id': campaign.id}) }}">Je donne pour cette campagne</a>
+
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
+
+    {% if app.user %}
+        <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">Modifier la campagne</a>
+
+        {{ include('campaign/_delete_form.html.twig') }}
+    {% endif %}
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ campaign.id }}</td>
-            </tr>
             <tr>
                 <th>Name</th>
                 <td>{{ campaign.name }}</td>
@@ -19,15 +24,76 @@
                 <th>Description</th>
                 <td>{{ campaign.description }}</td>
             </tr>
+            <tr>
+                <th>Somme récolté</th>
+                <td>{{ campaign.sommedonation }}</td>
+            </tr>
         </tbody>
     </table>
-    <a href="{{ path('app_campaign_donation', {'id': campaign.id}) }}">Je donne pour cette campagne</a>
 
-    <a href="{{ path('app_home') }}">Retour à la liste</a>
+{% if app.user %}
+    {% if campaign.nbdonations>0 %}
+<table class="table table-primary">
+    <thead>
+    <tr>
+        <th scope="col">Montant Total</th>
+        <th scope="col">Taux de conversion</th>
+        <th scope="col">Montant dons honorés</th>
+        <th scope="col">Montant non honoré</th>
+        <th scope="col">Nombre dons</th>
+        <th scope="col">Nombre dons honorés</th>
+        <th scope="col">Nombre dons non honorés</th>
 
-   {% if app.user %}
-    <a href="{{ path('app_campaign_edit', {'id': campaign.id}) }}">Modifier la campagne</a>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ campaign.sommeDonation }}</td>
+        <td>{{ campaign.tauxConversion }}%</td>
+        <td>{{ campaign.sommeDonationHonored }}</td>
+        <td>{{ campaign.sommeDonationNotHonored }}</td>
+        <td>{{ campaign.nbdonations }}</td>
+        <td>{{ campaign.nbHonored }}</td>
+        <td>{{ campaign.nbNotHonored }}</td>
+    </tr>
+    </tbody>
+</table>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Amount</th>
+        <th>Créée le</th>
+        <th>Honoré</th>
+        <th>Donateur</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for donation in campaign.donation  %}
+            <tr>
+                <td>{{ donation.amount }} €</td>
+                <td>{{ donation.createdAt ? donation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                {% if donation.honoredAt %}
+                    <td><p class="btn btn-success">{{ donation.honoredAt ? donation.honoredAt|date('Y-m-d H:i:s') : '' }}</p></td>
+                {% else %}
+                    <td><p class="btn btn-danger">Non</p></td>
+                {% endif %}
+                {% if donation.user %}
+                    <td>{{ donation.user.firstname }} {{ donation.user.lastname }}</td>
+                {% else %}
+                    <td>? Anonyme ?</td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('app_donation_show', {'id': donation.id}) }}">show</a>
+                    <a href="{{ path('app_donation_edit', {'id': donation.id}) }}">edit</a>
+                </td>
+            </tr>
 
-    {{ include('campaign/_delete_form.html.twig') }}
+        {% endfor %}
+    </tbody>
+    {% else %}
+        <h4>Pas de dons pour cette campagne</h4>
     {% endif %}
+
+{% endif %}
 {% endblock %}

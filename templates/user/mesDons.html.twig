@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Donation index{% endblock %}
+
+{% block body %}
+<h1>Donation index</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Amount</th>
+        <th>Créée le</th>
+        <th>Honoré</th>
+        <th>Campagne</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for donation in app.user.donations %}
+        <tr>
+            <td>{{ donation.amount }} €</td>
+            <td>{{ donation.createdAt ? donation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            {% if donation.honoredAt %}
+                <td><p class="btn btn-success">{{ donation.honoredAt ? donation.honoredAt|date('Y-m-d H:i:s') : '' }}</p></td>
+            {% else %}
+                <td><p class="btn btn-danger">Non</p></td>
+            {% endif %}
+            {% if donation.campaign %}
+                <td>{{ donation.campaign.name }} </td>
+            {% else %}
+                <td>Pas de campagne renseignée</td>
+            {% endif %}
+            <td>
+                <a href="{{ path('app_donation_show', {'id': donation.id}) }}">show</a>
+                <a href="{{ path('app_donation_edit', {'id': donation.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_home') }}">Create new</a>
+{% endblock %}
