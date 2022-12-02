@@ -17,8 +17,7 @@ class Donation
     #[Assert\NotNull]
     #[ORM\Column(nullable: true)]
     private ?int $amount = null;
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
+
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 

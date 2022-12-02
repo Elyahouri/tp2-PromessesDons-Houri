@@ -154,19 +154,26 @@ class Campaign
 
     public function getTauxConversion()
     {
-        $nbHonored = 0;
-        $nbNothonored = 0;
-        foreach ($this->getDonation() as $don){
-
-            if ($don->getHonoredAt()){
-                $nbHonored+=1;
-            }
-            else{
-                $nbNothonored+=1;
-            }
+        $nbHonored = $this->getNbHonored();
+        $nbNothonored = $this->getNbNotHonored();
+        if ($nbHonored==0){
+            return 0;
         }
-        $txConversion = ($nbHonored/($nbHonored+$nbNothonored))*100;
-        return round($txConversion,2);
+        else{
+            foreach ($this->getDonation() as $don){
+
+                if ($don->getHonoredAt()){
+                    $nbHonored+=1;
+                }
+                else{
+                    $nbNothonored+=1;
+                }
+            }
+            $txConversion = ($nbHonored/($nbHonored+$nbNothonored))*100;
+            return round($txConversion,2);
+
+        }
+
     }
 
     public function getNbHonored()
