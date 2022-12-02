@@ -32,7 +32,7 @@ Vous devez aussi créer un .env, vous avez pour modèle le .env-example
 - visualiser les différentes campagnes actives
 - créer une promesse de dons pour une campagne choisie
 #### En tant qu'utilisateur connecté
-(Vous pouvez vous connecter avec le compte mail:admin@gmail.com mdp:admin 
+(Vous pouvez vous connecter avec le compte mail:admin@mail.com mdp:admin 
 , l'un des comptes créés par les fixtures)
 - visualiser l'ensemble des campagnes (même les campagnes désactivées)
 - visualiser les campagnes ayant le plus de réussite
