@@ -54,10 +54,14 @@ class DonationController extends AbstractController
     #[Route('/{id}', name: 'app_donation_show', methods: ['GET'])]
     public function show(Donation $donation): Response
     {
+        if ($this->getUser()){
+            return $this->render('donation/show.html.twig', [
+                'donation' => $donation,
+            ]);
+        }else{
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
 
-        return $this->render('donation/show.html.twig', [
-            'donation' => $donation,
-        ]);
     }
 
     #[Route('/{id}/edit', name: 'app_donation_edit', methods: ['GET', 'POST'])]
