@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DonationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DonationRepository::class)]
 class Donation
@@ -12,10 +13,12 @@ class Donation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[ORM\Column(nullable: true)]
     private ?int $amount = null;
-
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
